@@ -1,48 +1,58 @@
 import React from 'react'
 import styled from 'styled-components'
 import { throttle } from 'throttle-debounce'
+import {useDispatch} from 'react-redux'
+import {search} from '../redux/features/image'
 
 function Nav() {
-    const Navigation = styled.nav`
-        display:flex;
-        flex-direction: row;
-        justify-content: space-between;
-    `;
+    const dispatch = useDispatch();
 
-    const Link = styled.a `
-    `;
-
-    const Search = styled.form`
-    `;
-
-    const TextInput = styled.input``;
-
-    const throttleUserInput = throttle(
-        1000,
-        () => console.log("hello")
-    )
-
-    const handleSearchForm = async (e, input) => {
-        e.preventDefault();
-        try{
-            const url = 'http://eulerity-hackathon.appspot.com/image';
-            // const res = await axios.get(url);
-            // const images = await res.json();
-            // console.log(images)
-        } catch(error){
-            console.log(error)
-        }
-    }
+    // can also use onSubmit for form if you only want to show on submitting search
+    const onSearch = throttle(1000, e => {
+        const input = e.target.value;
+        dispatch(search(input));
+    })
+    
     return (
-        <Navigation>
-            <Link href='#'> Home </Link>
-            <Search onSubmit={handleSearchForm}>
-                <TextInput type="text" placeholder="Search..." onChange={throttleUserInput}/>
-            </Search>
-            <Link href='#'> About </Link>
-        </Navigation>
+        <Container>
+            <NavItem href='/'> Home </NavItem>
+            <Searchbar type="text" placeholder="Search..." onChange={onSearch}/>
+            <NavItem href='/about'> About </NavItem>
+        </Container>
     )
 }
+
+const Container = styled.nav`
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2rem 0;
+    width:100%;
+`;
+
+const NavItem = styled.a `
+    font-size:1.5rem;
+    text-decoration: none;    
+    &:visited{
+        color: inherit;
+    }
+`;
+
+const Searchbar = styled.input`
+    border-radius: 25px;
+    padding: 0 1rem;
+    border: none;
+    margin: 0 2rem;
+    background: #f5f5f5;
+    flex: auto;
+
+    &:focus{
+        background: white;
+        border: 0.5px solid black;
+        outline: none;
+    }
+`;
+
 
 export default Nav
 
