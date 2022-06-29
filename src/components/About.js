@@ -56,6 +56,10 @@ function About() {
                 <Text>
                     As mentioned in Cache, it takes a long time to load so, rendering only what is needed would be better
                 </Text>
+                <H1>Query Params</H1>
+                <Text>
+                    Search functionality usually have query params added into the URL. 
+                </Text>
             </Subsection>
         </Section>
     </Container>
